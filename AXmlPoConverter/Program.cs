@@ -127,6 +127,9 @@ namespace AXmlPoConverter
 						case "m":
 							context.MappingPath = cmdData[1];
 							break;
+						case "is":
+							context.IgnoreASource = true;
+							break;
 						}
 					}
 				}

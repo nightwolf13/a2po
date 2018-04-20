@@ -13,7 +13,8 @@ This tool now supports only android resources located in "strings.xml", other fi
 -p:[PO_PATH]  - path to location of po files\
 -a:[COMMAND]  - action command:\
 -t            - save previous version of replacable files (in ~string.xml or in ~lan.po)\
--m            - path to txt file of language map between android and po resources
+-m            - path to txt file of language map between android and po resources\
+-is           - ignore android source file (values\strings.xml) when p2x command is used
 
 Commands:\
 x2p		- transfers all xml data to PO files\

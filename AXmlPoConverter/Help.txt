@@ -6,3 +6,4 @@
         clean - cleans all saved temp files in android project
 -t            - save previous version of replacable files (in ~string.xml or in ~lan.po)
 -m            - path to txt file of language map between android and po resources
+-is           - ignore android source file (values\strings.xml) when p2x command is used

@@ -21,8 +21,9 @@ namespace AXmlPoConverter.Convertion
 		public string AProjPath { get; set; }
 		public string PoProjPath { get; set; }
 		public ConvertionCmd Command { get; set; } = ConvertionCmd.Unknown;
-		public bool IsBackup { get; set; }
+		public bool IsBackup { get; set; } = false;
 		public string MappingPath { get { return mappingPath; } set { mappingPath = value; mapping = new Mapping(value); } }
+		public bool IgnoreASource { get; set; } = false;
 
 		public Mapping Map { get { return mapping; } }
 	}

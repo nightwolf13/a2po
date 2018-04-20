@@ -41,6 +41,12 @@ namespace AXmlPoConverter.Convertion
 
 				if (string.Equals(poRes.Language, "en", StringComparison.OrdinalIgnoreCase))
 				{
+					if (this.Context.IgnoreASource)
+					{
+						Console.WriteLine("values/string.xml is skipped");
+						continue;
+					}
+
 					aXmlPath = Path.Combine(aResPath, "values\\strings.xml");
 
 					if (File.Exists(aXmlPath))
