@@ -39,7 +39,7 @@ namespace AXmlPoConverter.Convertion
 				if (resource == null)
 					continue;
 
-				if (String.Equals(resource.Language, "en", StringComparison.OrdinalIgnoreCase))
+				if (String.Equals(this.Context.Map.GetPo(resource.Language), "en", StringComparison.OrdinalIgnoreCase))
 				{
 					sourceRes = resource;
 				}
@@ -73,7 +73,7 @@ namespace AXmlPoConverter.Convertion
 			foreach (AXmlResource aRes in aResources)
 			{
 				poFile = new PoResource();
-				poFile.Language = aRes.Language;
+				poFile.Language = this.Context.Map.GetPo(aRes.Language);
 
 				foreach (AXmlString aString in aRes)
 				{

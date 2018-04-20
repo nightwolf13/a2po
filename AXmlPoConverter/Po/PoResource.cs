@@ -83,12 +83,12 @@ namespace AXmlPoConverter.Po
 					sWriter.WriteLine();
 					foreach (string comment in pString.Comments)
 					{
-						sWriter.WriteLine($@"#. {comment}");
+						sWriter.WriteLine($@"#. {Normalize(comment)}");
 					}
 
 					if (!string.IsNullOrEmpty(pString.Link))
 					{
-						sWriter.WriteLine($@"#: {pString.Link}");
+						sWriter.WriteLine($@"#: {Normalize(pString.Link)}");
 					}
 
 					string[] idLines = pString.Id.Split(new string[] { "\n" }, StringSplitOptions.None);
@@ -97,12 +97,12 @@ namespace AXmlPoConverter.Po
 						sWriter.WriteLine($@"msgid """"");
 						foreach (string idLine in idLines)
 						{
-							sWriter.WriteLine($@"""{idLine}""");
+							sWriter.WriteLine($@"""{Normalize(idLine)}\n""");
 						}
 					}
 					else
 					{
-						sWriter.WriteLine($@"msgid ""{pString.Id}""");
+						sWriter.WriteLine($@"msgid ""{Normalize(pString.Id)}""");
 					}
 
 					string[] strLines = pString.Value.Split(new string[] { "\n" }, StringSplitOptions.None);
@@ -112,15 +112,23 @@ namespace AXmlPoConverter.Po
 						sWriter.WriteLine($@"msgstr """"");
 						foreach (string strLine in strLines)
 						{
-							sWriter.WriteLine($@"""{strLine}""");
+							sWriter.WriteLine($@"""{Normalize(strLine)}\n""");
 						}
 					}
 					else
 					{
-						sWriter.WriteLine($@"msgstr ""{pString.Value}""");
+						sWriter.WriteLine($@"msgstr ""{Normalize(pString.Value)}""");
 					}
 				}
 			}
+		}
+
+		private string Normalize(string value)
+		{
+			if (string.IsNullOrEmpty(value))
+				return value;
+
+			return value.Replace("\\'", "'").Replace("\\", "\\\\");
 		}
 	}
 

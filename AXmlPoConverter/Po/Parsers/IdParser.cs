@@ -33,7 +33,7 @@ namespace AXmlPoConverter.Po.Parsers
 			//}
 
 			//context.CurrentString = new PoString();
-			context.CurrentString.Id = value;
+			context.CurrentString.Id = this.Normalize(value);
 			context.IsId = true;
 			context.IsString = false;
 		}

@@ -124,6 +124,9 @@ namespace AXmlPoConverter
 						case "t":
 							context.IsBackup = true;
 							break;
+						case "m":
+							context.MappingPath = cmdData[1];
+							break;
 						}
 					}
 				}

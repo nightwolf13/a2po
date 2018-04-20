@@ -27,7 +27,7 @@ namespace AXmlPoConverter.Po.Parsers
 		{
 			context.IsId = false;
 			context.IsString = true;
-			context.CurrentString.Value = value;
+			context.CurrentString.Value = this.Normalize(value);
 		}
 	}
 }

@@ -49,6 +49,7 @@
     <Compile Include="Convertion\A2PoConvertion.cs" />
     <Compile Include="Convertion\ConvertionBase.cs" />
     <Compile Include="Convertion\ConvertionContext.cs" />
+    <Compile Include="Convertion\Mapping.cs" />
     <Compile Include="Convertion\Po2AConvertion.cs" />
     <Compile Include="Po\Parsers\LinkParser.cs" />
     <Compile Include="Po\Parsers\CommentParser.cs" />
@@ -67,6 +68,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\README.md">
+      <Link>README.md</Link>
+    </None>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>

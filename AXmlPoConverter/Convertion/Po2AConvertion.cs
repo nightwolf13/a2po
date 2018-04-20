@@ -50,11 +50,11 @@ namespace AXmlPoConverter.Convertion
 				}
 				else
 				{
-					aXmlPath = Path.Combine(aResPath, $"values-{poRes.Language}\\strings.xml");
+					aXmlPath = Path.Combine(aResPath, $"values-{this.Context.Map.GetA(poRes.Language)}\\strings.xml");
 
 					if (Directory.Exists(aResPath))
 					{
-						string pattern = $"values*-{poRes.Language}";
+						string pattern = $"values*-{this.Context.Map.GetA(poRes.Language)}";
 						DirectoryInfo[] dirs = new DirectoryInfo(aResPath).GetDirectories(pattern, SearchOption.TopDirectoryOnly);
 
 						if (dirs.Length > 0)
@@ -72,7 +72,7 @@ namespace AXmlPoConverter.Convertion
 				if (aRes == null)
 					aRes = new AXmlResource();
 
-				aRes.Language = poRes.Language;
+				aRes.Language = this.Context.Map.GetA(poRes.Language);
 
 				foreach (PoString poStr in poRes)
 				{

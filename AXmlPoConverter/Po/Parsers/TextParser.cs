@@ -25,7 +25,7 @@ namespace AXmlPoConverter.Po.Parsers
 
 		protected override void Update(ParserContext context, string value)
 		{
-			string txt = Environment.NewLine + value;
+			string txt = Environment.NewLine + this.Normalize(value);
 			if (context.IsId)
 			{
 				context.CurrentString.Id += txt;

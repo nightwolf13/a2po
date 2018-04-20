@@ -15,9 +15,15 @@ namespace AXmlPoConverter.Convertion
 	}
 	public class ConvertionContext
 	{
+		private string mappingPath;
+		private Mapping mapping;
+
 		public string AProjPath { get; set; }
 		public string PoProjPath { get; set; }
 		public ConvertionCmd Command { get; set; } = ConvertionCmd.Unknown;
 		public bool IsBackup { get; set; }
+		public string MappingPath { get { return mappingPath; } set { mappingPath = value; mapping = new Mapping(value); } }
+
+		public Mapping Map { get { return mapping; } }
 	}
 }

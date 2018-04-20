@@ -30,5 +30,13 @@ namespace AXmlPoConverter.Po.Parsers
 
 			return false;
 		}
+
+		protected string Normalize(string value)
+		{
+			if (string.IsNullOrEmpty(value))
+				return value;
+
+			return value.Replace("'", "\\'").Replace("\\\\", "\\");
+		}
 	}
 }

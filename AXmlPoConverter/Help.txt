@@ -5,3 +5,4 @@
         p2x   - transfers all po data to project XML files
         clean - cleans all saved temp files in android project
 -t            - save previous version of replacable files (in ~string.xml or in ~lan.po)
+-m            - path to txt file of language map between android and po resources
