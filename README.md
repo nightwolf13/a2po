@@ -9,17 +9,17 @@ Also if you don't want to make string translatable don't forget to mark it by tr
 This tool now supports only android resources located in "strings.xml", other files will not be read/written
 
 # Instructions
--x:[XML_PATH] - path to android project root directory (where src folder is located)
--p:[PO_PATH]  - path to location of po files
--a:[COMMAND]  - action command:
-	x2p		- transfers all xml data to PO files
-	p2x		- transfers all po data to project XML files
-	clean	- cleans all saved temp files in android project
--t            - save previous version of replacable files (in ~string.xml or in ~lan.po)
--m            - path to txt file of language map between android and po resources
+-x:[XML_PATH] - path to android project root directory (where src folder is located)\
+-p:[PO_PATH]  - path to location of po files\
+-a:[COMMAND]  - action command:\
+	x2p		- transfers all xml data to PO files\
+	p2x		- transfers all po data to project XML files\
+	clean	- cleans all saved temp files in android project\
+-t            - save previous version of replacable files (in ~string.xml or in ~lan.po)\
+-m            - path to txt file of language map between android and po resources\
 
-Format of ignore file:
-(android language code)=(po language code)
-For example:
-zh=zh_TW
-en=en_US
+Format of ignore file:\
+(android language code)=(po language code)\
+For example:\
+zh=zh_TW\
+en=en_US\
