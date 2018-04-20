@@ -11,6 +11,7 @@ namespace AXmlPoConverter.Convertion
 	{
 		private Dictionary<string, string> a2po = new Dictionary<string, string>();
 		private Dictionary<string, string> po2a = new Dictionary<string, string>();
+		private List<string> ignoreA = new List<string>();
 
 		public Mapping(string path)
 		{
@@ -19,6 +20,7 @@ namespace AXmlPoConverter.Convertion
 
 		private void Load(string path)
 		{
+			bool ignore = false;
 			using (StreamReader reader = new StreamReader(path))
 			{
 				while (!reader.EndOfStream)
@@ -28,13 +30,25 @@ namespace AXmlPoConverter.Convertion
 					if (string.IsNullOrWhiteSpace(line))
 						continue;
 
-					var pair = line.Split(new string[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
-
-					if (pair.Length < 2)
+					if (!ignore && string.Equals(line.Trim(), "ignore", StringComparison.OrdinalIgnoreCase))
+					{
+						ignore = true;
 						continue;
+					}
 
-					a2po.Add(pair[0], pair[1]);
-					po2a.Add(pair[1], pair[0]);
+					if (!ignore)
+					{
+						var pair = line.Split(new string[] { "=" }, StringSplitOptions.RemoveEmptyEntries);
+
+						if (pair.Length < 2)
+							continue;
+
+						a2po.Add(pair[0].Trim(), pair[1].Trim());
+						po2a.Add(pair[1].Trim(), pair[0].Trim());
+					} else
+					{
+						ignoreA.Add(line.Trim());
+					}
 				}
 			}
 		}
@@ -53,6 +67,11 @@ namespace AXmlPoConverter.Convertion
 				return po2a[po];
 
 			return po;
+		}
+
+		public bool IsAIgnored(string a)
+		{
+			return ignoreA.Contains(a);
 		}
 	}
 }

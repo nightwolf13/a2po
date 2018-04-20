@@ -16,11 +16,10 @@ namespace AXmlPoConverter.AXml
 		{
 			AXmlResource res = null;
 			DirectoryInfo dir = new DirectoryInfo(Path.GetDirectoryName(path));
-			string[] fileAttrs = dir.Name.Split('-');
 			string language = "en";
-			if (fileAttrs.Length > 1)
+			if (dir.Name.Contains("-"))
 			{
-				language = fileAttrs[fileAttrs.Length - 1];
+				language = dir.Name.Substring(dir.Name.IndexOf("-") + 1);
 			}
 
 			using (XmlReader reader = XmlReader.Create(path))

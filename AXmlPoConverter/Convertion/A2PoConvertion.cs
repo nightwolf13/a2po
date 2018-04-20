@@ -39,6 +39,12 @@ namespace AXmlPoConverter.Convertion
 				if (resource == null)
 					continue;
 
+				if (this.Context.Map.IsAIgnored(resource.Language))
+				{
+					Console.WriteLine($"{aFile.Directory.Name}/{aFile.Name} ignored");
+					continue;
+				}
+
 				if (String.Equals(this.Context.Map.GetPo(resource.Language), "en", StringComparison.OrdinalIgnoreCase))
 				{
 					sourceRes = resource;
@@ -81,7 +87,16 @@ namespace AXmlPoConverter.Convertion
 					{
 						PoString poString = new PoString();
 						AXmlString sourceStr = sourceRes.FirstOrDefault(s => s.Name == aString.Name);
-						poString.Id = sourceStr.Value;
+						string pid;
+						if (sourceStr != null)
+						{
+							pid = sourceStr.Value;
+						}
+						else
+						{
+							pid = aString.Name;
+						}
+						poString.Id = pid;
 						poString.Value = aString.Value;
 						// Save id of android resource
 						poString.Link = aString.Name;

@@ -92,12 +92,35 @@ namespace AXmlPoConverter.Po
 					}
 
 					string[] idLines = pString.Id.Split(new string[] { "\n" }, StringSplitOptions.None);
-					if (idLines.Length > 1)
+
+					if (idLines.Length > 1 || pString.Id.Length >= 80)
 					{
 						sWriter.WriteLine($@"msgid """"");
 						foreach (string idLine in idLines)
 						{
-							sWriter.WriteLine($@"""{Normalize(idLine)}\n""");
+							if (idLine.Length >= 80)
+							{
+								string remLine = idLine;
+
+								while (remLine.Length > 0)
+								{
+									string subLine = remLine.Substring(0, Math.Min(79, remLine.Length));
+									remLine = remLine.Replace(subLine, "");
+
+									string nChar = "";
+
+									if (remLine.Length == 0)
+									{
+										nChar = "\\n";
+									}
+
+									sWriter.WriteLine($@"""{Normalize(subLine)}{nChar}""");
+								}
+							}
+							else
+							{
+								sWriter.WriteLine($@"""{Normalize(idLine)}\n""");
+							}
 						}
 					}
 					else
@@ -105,14 +128,39 @@ namespace AXmlPoConverter.Po
 						sWriter.WriteLine($@"msgid ""{Normalize(pString.Id)}""");
 					}
 
-					string[] strLines = pString.Value.Split(new string[] { "\n" }, StringSplitOptions.None);
+					string[] strLines = new string[] { "" };
+					
+					if (!string.IsNullOrEmpty(pString.Value))
+						strLines = pString.Value.Split(new string[] { "\n" }, StringSplitOptions.None);
 
 					if (strLines.Length > 1)
 					{
 						sWriter.WriteLine($@"msgstr """"");
 						foreach (string strLine in strLines)
 						{
-							sWriter.WriteLine($@"""{Normalize(strLine)}\n""");
+							if (strLine.Length >= 80)
+							{
+								string remLine = strLine;
+
+								while (remLine.Length > 0)
+								{
+									string subLine = remLine.Substring(0, Math.Min(79, remLine.Length));
+									remLine = remLine.Replace(subLine, "");
+
+									string nChar = "";
+
+									if (remLine.Length == 0)
+									{
+										nChar = "\\n";
+									}
+
+									sWriter.WriteLine($@"""{Normalize(subLine)}{nChar}""");
+								}
+							}
+							else
+							{
+								sWriter.WriteLine($@"""{Normalize(strLine)}\n""");
+							}
 						}
 					}
 					else
@@ -129,6 +177,8 @@ namespace AXmlPoConverter.Po
 				return value;
 
 			return value.Replace("\\'", "'").Replace("\\", "\\\\");
+				//.Replace("\\G", "\\\\G")
+				//.Replace("\\-", "\\\\-").Replace("\\L", "\\\\L").Replace("\\\\K", "\\K").Replace("\\\\K", "\\K");//.Replace(@"\""", @"""").Replace("\\", "\\\\");
 		}
 	}
 

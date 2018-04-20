@@ -37,6 +37,8 @@ namespace AXmlPoConverter.Po.Parsers
 				return value;
 
 			return value.Replace("'", "\\'").Replace("\\\\", "\\");
+				//.Replace("\\\\G", "\\G")
+				//.Replace("\\\\-","\\-").Replace("\\\\L", "\\L").Replace("\\\\K", "\\K").Replace("\\\\K", "\\K");//.Replace(@"""", @"\""");
 		}
 	}
 }
