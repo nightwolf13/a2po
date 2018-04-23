@@ -25,7 +25,7 @@ namespace AXmlPoConverter.Po.Parsers
 
 		protected override void Update(ParserContext context, string value)
 		{
-			context.Comments.Add(value);
+			context.Comments.Add(this.Normalize(value));
 		}
 	}
 }

@@ -86,9 +86,9 @@ namespace AXmlPoConverter.Po
 						sWriter.WriteLine($@"#. {Normalize(comment)}");
 					}
 
-					if (!string.IsNullOrEmpty(pString.Link))
+					foreach (string link in pString.Links)
 					{
-						sWriter.WriteLine($@"#: {Normalize(pString.Link)}");
+						sWriter.WriteLine($@"#: {Normalize(link)}");
 					}
 
 					string[] idLines = pString.Id.Split(new string[] { "\n" }, StringSplitOptions.None);
@@ -188,13 +188,14 @@ namespace AXmlPoConverter.Po
 		public string Id { get; set; }
 		public string Value { get; set; }
 		public List<string> Comments { get; private set; }
-		public string Link { get; set; }
+		public List<string> Links { get; set; }
 
 		public bool IsHeader { get { return string.IsNullOrEmpty(this.Id); } }
 
 		public PoString()
 		{
 			this.Comments = new List<string>();
+			this.Links = new List<string>();
 		}
 	}
 }

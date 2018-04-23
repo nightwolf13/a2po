@@ -82,32 +82,38 @@ namespace AXmlPoConverter.Convertion
 
 				foreach (PoString poStr in poRes)
 				{
-					string id = poStr.Id;
 					PoString tempStr = tempPot.FirstOrDefault(s => s.Id == poStr.Id);
-					if (tempStr != null && !string.IsNullOrEmpty(tempStr.Link))
+					var links = new List<string>();
+
+					if (tempStr != null && tempStr.Links != null)
 					{
-						id = tempStr.Link;
+						links.AddRange(tempStr.Links);
 					}
-					else if (!string.IsNullOrEmpty(poStr.Link))
+
+					if (poStr.Links != null)
 					{
-						id = poStr.Link;
+						links.AddRange(poStr.Links.Where(l => !links.Contains(l)));
 					}
-					else
+
+					if (links.Count == 0)
 					{
 						Console.WriteLine($"WARNING: string key not found. File: {poFile.Name}, Res: {poStr.Id}");
-						id = poStr.Id;
+						links.Add(poStr.Id);
 					}
-
-					AXmlString aString = aRes.FirstOrDefault(a => a.Name == id);
-
-					if (aString == null)
+					
+					foreach (string id in links)
 					{
-						aString = new AXmlString();
-						aRes.Add(aString);
-					}
+						AXmlString aString = aRes.FirstOrDefault(a => a.Name == id);
 
-					aString.Name = id;
-					aString.Value = poStr.Value;
+						if (aString == null)
+						{
+							aString = new AXmlString();
+							aRes.Add(aString);
+						}
+
+						aString.Name = id;
+						aString.Value = poStr.Value;
+					}
 				}
 
 				FileInfo ax = new FileInfo(aXmlPath);

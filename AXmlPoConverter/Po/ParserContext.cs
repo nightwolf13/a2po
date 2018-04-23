@@ -11,7 +11,7 @@ namespace AXmlPoConverter.Po
 		public bool IsId { get; set; }
 		public bool IsString { get; set; }
 		public List<string> Comments { get; private set; }
-		public string Link { get; set; }
+		public List<string> Links { get; set; }
 		public PoString CurrentString { get; set; }
 		public PoResource PoResource { get; private set; }
 
@@ -32,10 +32,11 @@ namespace AXmlPoConverter.Po
 					this.PoResource.Add(this.CurrentString);
 				}
 				this.CurrentString.Comments.AddRange(this.Comments);
-				this.CurrentString.Link = this.Link;
+				this.CurrentString.Links.AddRange(this.Links);
 			}
 			this.CurrentString = new PoString();
 			this.Comments = new List<string>();
+			this.Links = new List<string>();
 		}
 
 		public void FinalizeResource()
@@ -43,7 +44,7 @@ namespace AXmlPoConverter.Po
 			if (this.CurrentString != null)
 			{
 				this.CurrentString.Comments.AddRange(this.Comments);
-				this.CurrentString.Link = this.Link;
+				this.CurrentString.Links.AddRange(this.Links);
 				this.PoResource.Add(this.CurrentString);
 			}
 		}

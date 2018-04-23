@@ -61,12 +61,18 @@ namespace AXmlPoConverter.Convertion
 			{
 				if (aString.IsTranslatable)
 				{
-					PoString poString = new PoString();
+					PoString poString = poFile.FirstOrDefault(p => p.Id == aString.Value);
+
+					if (poString == null)
+					{
+						poString = new PoString();
+						poFile.Add(poString);
+					}
+
 					// Save id of android resource
-					poString.Link = aString.Name;
+					poString.Links.Add(aString.Name);
 					poString.Id = aString.Value;
 					poString.Value = "";
-					poFile.Add(poString);
 				}
 			}
 			this.MakeBackup("template.pot");
@@ -85,7 +91,6 @@ namespace AXmlPoConverter.Convertion
 				{
 					if (aString.IsTranslatable)
 					{
-						PoString poString = new PoString();
 						AXmlString sourceStr = sourceRes.FirstOrDefault(s => s.Name == aString.Name);
 						string pid;
 						if (sourceStr != null)
@@ -96,10 +101,18 @@ namespace AXmlPoConverter.Convertion
 						{
 							pid = aString.Name;
 						}
+
+						PoString poString = poFile.FirstOrDefault(p => p.Id == pid);
+
+						if (poString == null)
+						{
+							poString = new PoString();
+						}
+
 						poString.Id = pid;
 						poString.Value = aString.Value;
 						// Save id of android resource
-						poString.Link = aString.Name;
+						poString.Links.Add(aString.Name);
 						poFile.Add(poString);
 					}
 				}
