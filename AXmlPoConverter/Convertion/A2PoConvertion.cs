@@ -107,13 +107,13 @@ namespace AXmlPoConverter.Convertion
 						if (poString == null)
 						{
 							poString = new PoString();
+							poFile.Add(poString);
 						}
 
 						poString.Id = pid;
 						poString.Value = aString.Value;
 						// Save id of android resource
 						poString.Links.Add(aString.Name);
-						poFile.Add(poString);
 					}
 				}
 
