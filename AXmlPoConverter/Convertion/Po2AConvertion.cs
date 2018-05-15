@@ -82,6 +82,10 @@ namespace AXmlPoConverter.Convertion
 
 				foreach (PoString poStr in poRes)
 				{
+					// If value is empty, then default(en) value should be used
+					if (string.IsNullOrWhiteSpace(poStr.Value))
+						continue;
+
 					PoString tempStr = tempPot.FirstOrDefault(s => s.Id == poStr.Id);
 					var links = new List<string>();
 
