@@ -30,13 +30,19 @@ namespace AXmlPoConverter.AXml
 				language = dir.Name.Substring(dir.Name.IndexOf("-") + 1);
 			}
 
-			using (XmlReader reader = XmlReader.Create(path))
+			using (XmlReader reader = XmlReader.Create(path, new XmlReaderSettings() { IgnoreComments = false }))
 			{
 				res = new AXmlResource();
 				AXmlPlural xmlPlural = null;
 				bool resourceContent = false;
+				List<string> comments = new List<string>();
 				while(reader.Read())
 				{
+					if (reader.NodeType == XmlNodeType.Comment)
+					{
+						comments.Add(reader.Value.Trim());
+						continue;
+					}
 					if (reader.IsStartElement())
 					{
 						if (reader.Name == N_RESOURCE)
@@ -69,6 +75,11 @@ namespace AXmlPoConverter.AXml
 						{
 							AXmlString xmlString = new AXmlString();
 							xmlString.Name = reader.GetAttribute(A_NAME);
+							if (comments.Count > 0)
+							{
+								xmlString.Comments.AddRange(comments);
+								comments.Clear();
+							}
 							string trans = reader.GetAttribute(A_TRANSLATABLE);
 							if (!string.IsNullOrEmpty(trans)) {
 								xmlString.IsTranslatable = Convert.ToBoolean(trans);
@@ -80,6 +91,11 @@ namespace AXmlPoConverter.AXml
 						{
 							xmlPlural = new AXmlPlural();
 							xmlPlural.Name = reader.GetAttribute(A_NAME);
+							if (comments.Count > 0)
+							{
+								xmlPlural.Comments.AddRange(comments);
+								comments.Clear();
+							}
 							res.Add(xmlPlural);
 							continue;
 						} else if (reader.Name == N_ITEM)
@@ -123,6 +139,13 @@ namespace AXmlPoConverter.AXml
 
 				foreach (AXmlResourceItem xmlItem in resource)
 				{
+					if (xmlItem.Comments != null && xmlItem.Comments.Count > 0)
+					{
+						foreach (string comment in xmlItem.Comments)
+						{
+							writer.WriteComment(comment);
+						}
+					}
 					if (xmlItem is AXmlString)
 					{
 						AXmlString aString = (AXmlString)xmlItem;

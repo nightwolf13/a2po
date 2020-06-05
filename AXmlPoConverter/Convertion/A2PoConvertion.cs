@@ -76,6 +76,8 @@ namespace AXmlPoConverter.Convertion
 						poString.Links.Add(aString.Name);
 						poString.Id = aString.Value;
 						poString.Value = "";
+						poString.Comments.Clear();
+						poString.Comments.AddRange(aString.Comments);
 					}
 				} else if (xmlString is AXmlPlural)
 				{
@@ -96,6 +98,8 @@ namespace AXmlPoConverter.Convertion
 						poString.Links.Add(aPlural.Name);
 						poString.Id = aPluralItem.GetPoValue();
 						poString.Value = "";
+						poString.Comments.Clear();
+						poString.Comments.AddRange(aPlural.Comments);
 					}
 				}
 			}
@@ -144,6 +148,8 @@ namespace AXmlPoConverter.Convertion
 							// Save id of android resource
 							poString.Links.Add(aPlural.Name);
 							poString.PluralType = aPluralItem.Quantity;
+							poString.Comments.Clear();
+							poString.Comments.AddRange(aPlural.Comments);
 							//poString.PluralLink = aPlural.Name;
 						}
 						continue;
@@ -176,6 +182,8 @@ namespace AXmlPoConverter.Convertion
 							poString.Value = aString.Value;
 							// Save id of android resource
 							poString.Links.Add(aString.Name);
+							poString.Comments.Clear();
+							poString.Comments.AddRange(aString.Comments);
 						}
 					}
 				}

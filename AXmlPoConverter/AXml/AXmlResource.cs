@@ -23,6 +23,7 @@ namespace AXmlPoConverter.AXml
 	public abstract class AXmlResourceItem
 	{
 		public string Name { get; set; }
+		public List<string> Comments { get; } = new List<string>();
 	}
 
 	[DebuggerDisplay("{Name} - {Value}")]

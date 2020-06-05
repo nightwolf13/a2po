@@ -120,6 +120,11 @@ namespace AXmlPoConverter.Convertion
 								xmlString = new AXmlString();
 							}
 							xmlString.Name = id;
+							if (poStr.Comments != null && poStr.Comments.Count > 0)
+							{
+								xmlString.Comments.Clear();
+								xmlString.Comments.AddRange(poStr.Comments);
+							}
 							aRes.Add(xmlString);
 						}
 
