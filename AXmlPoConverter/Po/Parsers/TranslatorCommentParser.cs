@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace AXmlPoConverter.Po.Parsers
 {
-	public class CommentParser : ParserBase
+	public class TranslatorCommentParser : ParserBase
 	{
-		static Regex commentRegex = new Regex(@"^#(\.|\s)\s*(?<Value>.*)$");
+		static Regex commentRegex = new Regex($@"^#\s+(?<{GROUP_VALUE}>.*)$");
 
-		public CommentParser(string line) : base(line)
+		public TranslatorCommentParser(string line) : base(line)
 		{
 		}
 
@@ -25,7 +25,7 @@ namespace AXmlPoConverter.Po.Parsers
 
 		protected override void Update(ParserContext context, string value)
 		{
-			context.Comments.Add(this.Normalize(value));
+			context.Comments.Add(value.PoDeNormalize());
 		}
 	}
 }

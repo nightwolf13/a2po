@@ -9,6 +9,7 @@ namespace AXmlPoConverter.Po.Parsers
 {
 	public abstract class ParserBase
 	{
+		protected static readonly string GROUP_VALUE = "Value";
 		protected string Line { get; private set; }
 		public ParserBase(string line)
 		{
@@ -24,21 +25,11 @@ namespace AXmlPoConverter.Po.Parsers
 
 			if (m.Success)
 			{
-				Update(context, m.Groups["Value"].Value);
+				Update(context, m.Groups[GROUP_VALUE].Value);
 				return true;
 			}
 
 			return false;
-		}
-
-		protected string Normalize(string value)
-		{
-			if (string.IsNullOrEmpty(value))
-				return value;
-
-			return value.Replace("'", "\\'").Replace("\\\\", "\\");
-				//.Replace("\\\\G", "\\G")
-				//.Replace("\\\\-","\\-").Replace("\\\\L", "\\L").Replace("\\\\K", "\\K").Replace("\\\\K", "\\K");//.Replace(@"""", @"\""");
 		}
 	}
 }

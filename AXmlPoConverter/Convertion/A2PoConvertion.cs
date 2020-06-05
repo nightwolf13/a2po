@@ -57,22 +57,46 @@ namespace AXmlPoConverter.Convertion
 			PoResource poFile = new PoResource();
 			poFile.Language = "en";
 
-			foreach (AXmlString aString in sourceRes)
+			foreach (AXmlResourceItem xmlString in sourceRes)
 			{
-				if (aString.IsTranslatable)
+				if (xmlString is AXmlString)
 				{
-					PoString poString = poFile.FirstOrDefault(p => p.Id == aString.Value);
-
-					if (poString == null)
+					AXmlString aString = (AXmlString)xmlString;
+					if (aString.IsTranslatable)
 					{
-						poString = new PoString();
-						poFile.Add(poString);
-					}
+						PoString poString = poFile.FirstOrDefault(p => p.Id == aString.Value);
 
-					// Save id of android resource
-					poString.Links.Add(aString.Name);
-					poString.Id = aString.Value;
-					poString.Value = "";
+						if (poString == null)
+						{
+							poString = new PoString();
+							poFile.Add(poString);
+						}
+
+						// Save id of android resource
+						poString.Links.Add(aString.Name);
+						poString.Id = aString.Value;
+						poString.Value = "";
+					}
+				} else if (xmlString is AXmlPlural)
+				{
+					AXmlPlural aPlural = (AXmlPlural)xmlString;
+
+					foreach (AXmlPluralItem aPluralItem in aPlural.Items.Values)
+					{
+						PoString poString = poFile.FirstOrDefault(p => aPluralItem.GetPoValue() == p.Id);
+
+						if (poString == null)
+						{
+							poString = new PoString();
+							poFile.Add(poString);
+						}
+
+						poString.PluralType = aPluralItem.Quantity;
+						//poString.PluralLink = aPlural.Name;
+						poString.Links.Add(aPlural.Name);
+						poString.Id = aPluralItem.GetPoValue();
+						poString.Value = "";
+					}
 				}
 			}
 			this.MakeBackup("template.pot");
@@ -87,33 +111,72 @@ namespace AXmlPoConverter.Convertion
 				poFile = new PoResource();
 				poFile.Language = this.Context.Map.GetPo(aRes.Language);
 
-				foreach (AXmlString aString in aRes)
+				foreach (AXmlResourceItem xmlString in aRes)
 				{
-					if (aString.IsTranslatable)
+					if (xmlString is AXmlPlural)
 					{
-						AXmlString sourceStr = sourceRes.FirstOrDefault(s => s.Name == aString.Name);
-						string pid;
-						if (sourceStr != null)
-						{
-							pid = sourceStr.Value;
-						}
-						else
-						{
-							pid = aString.Name;
-						}
+						AXmlPlural aPlural = (AXmlPlural)xmlString;
+						AXmlPlural sourcePlural = (AXmlPlural)sourceRes.FirstOrDefault(s => s.Name == aPlural.Name);
 
-						PoString poString = poFile.FirstOrDefault(p => p.Id == pid);
-
-						if (poString == null)
+						foreach (AXmlPluralItem aPluralItem in aPlural.Items.Values)
 						{
-							poString = new PoString();
-							poFile.Add(poString);
-						}
+							string pid;
+							if (sourcePlural != null)
+							{
+								pid = sourcePlural.Items[aPluralItem.Quantity].GetPoValue();
+							}
+							else
+							{
+								// Should not be called
+								pid = aPlural.Name;
+							}
 
-						poString.Id = pid;
-						poString.Value = aString.Value;
-						// Save id of android resource
-						poString.Links.Add(aString.Name);
+							PoString poString = poFile.FirstOrDefault(p => p.Id == pid);
+
+							if (poString == null)
+							{
+								poString = new PoString();
+								poFile.Add(poString);
+							}
+
+							poString.Id = pid;
+							poString.Value = aPluralItem.GetPoValue();
+							// Save id of android resource
+							poString.Links.Add(aPlural.Name);
+							poString.PluralType = aPluralItem.Quantity;
+							//poString.PluralLink = aPlural.Name;
+						}
+						continue;
+					}
+					else if (xmlString is AXmlString)
+					{
+						AXmlString aString = (AXmlString)xmlString;
+						if (aString.IsTranslatable)
+						{
+							AXmlString sourceStr = (AXmlString)sourceRes.FirstOrDefault(s => s.Name == aString.Name);
+							string pid;
+							if (sourceStr != null)
+							{
+								pid = sourceStr.Value;
+							}
+							else
+							{
+								pid = aString.Name;
+							}
+
+							PoString poString = poFile.FirstOrDefault(p => p.Id == pid);
+
+							if (poString == null)
+							{
+								poString = new PoString();
+								poFile.Add(poString);
+							}
+
+							poString.Id = pid;
+							poString.Value = aString.Value;
+							// Save id of android resource
+							poString.Links.Add(aString.Name);
+						}
 					}
 				}
 

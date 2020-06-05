@@ -25,6 +25,12 @@ namespace AXmlPoConverter.Convertion
 		public string MappingPath { get { return mappingPath; } set { mappingPath = value; mapping = new Mapping(value); } }
 		public bool IgnoreASource { get; set; } = false;
 
-		public Mapping Map { get { return mapping; } }
+		public Mapping Map { get 
+			{ 
+				if (mapping == null)
+				{
+					mapping = new Mapping();
+				}
+				return mapping; } }
 	}
 }

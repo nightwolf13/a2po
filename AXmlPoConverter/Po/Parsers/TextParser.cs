@@ -9,7 +9,7 @@ namespace AXmlPoConverter.Po.Parsers
 {
 	public class TextParser : ParserBase
 	{
-		static Regex textRegex = new Regex(@"^""(?<Value>.*)""$");
+		static Regex textRegex = new Regex($@"^""(?<{GROUP_VALUE}>.*)""$");
 
 		public TextParser(string line) : base(line)
 		{
@@ -25,7 +25,7 @@ namespace AXmlPoConverter.Po.Parsers
 
 		protected override void Update(ParserContext context, string value)
 		{
-			string txt = Environment.NewLine + this.Normalize(value);
+			string txt = Environment.NewLine + value.PoDeNormalize();
 			if (context.IsId)
 			{
 				context.CurrentString.Id += txt;

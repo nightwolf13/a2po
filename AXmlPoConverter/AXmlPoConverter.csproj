@@ -47,20 +47,24 @@
     <Compile Include="AXml\AXmlHelper.cs" />
     <Compile Include="AXml\AXmlResource.cs" />
     <Compile Include="Convertion\A2PoConvertion.cs" />
+    <Compile Include="Convertion\ConvertionExtensions.cs" />
     <Compile Include="Convertion\ConvertionBase.cs" />
     <Compile Include="Convertion\ConvertionContext.cs" />
     <Compile Include="Convertion\Mapping.cs" />
     <Compile Include="Convertion\Po2AConvertion.cs" />
     <Compile Include="Po\Parsers\LinkParser.cs" />
-    <Compile Include="Po\Parsers\CommentParser.cs" />
+    <Compile Include="Po\Parsers\PluralMarkParser.cs" />
+    <Compile Include="Po\Parsers\TranslatorCommentParser.cs" />
     <Compile Include="Po\Parsers\IdParser.cs" />
     <Compile Include="Po\Parsers\ParserBase.cs" />
     <Compile Include="Po\ParserContext.cs" />
     <Compile Include="Po\Parsers\StringParser.cs" />
     <Compile Include="Po\Parsers\TextParser.cs" />
+    <Compile Include="Po\PoExtensions.cs" />
     <Compile Include="Po\PoResource.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuantityType.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

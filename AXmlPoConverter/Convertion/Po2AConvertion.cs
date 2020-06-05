@@ -83,7 +83,7 @@ namespace AXmlPoConverter.Convertion
 				foreach (PoString poStr in poRes)
 				{
 					// If value is empty, then default(en) value should be used
-					if (string.IsNullOrWhiteSpace(poStr.Value))
+					if (poStr.IsEmpty)
 						continue;
 
 					PoString tempStr = tempPot.FirstOrDefault(s => s.Id == poStr.Id);
@@ -104,19 +104,53 @@ namespace AXmlPoConverter.Convertion
 						Console.WriteLine($"WARNING: string key not found. File: {poFile.Name}, Res: {poStr.Id}");
 						links.Add(poStr.Id);
 					}
-					
+
 					foreach (string id in links)
 					{
-						AXmlString aString = aRes.FirstOrDefault(a => a.Name == id);
+						AXmlResourceItem xmlString = aRes.FirstOrDefault(a => a.Name == id);
 
-						if (aString == null)
+						if (xmlString == null)
 						{
-							aString = new AXmlString();
-							aRes.Add(aString);
+							if (poStr.IsPluralString)
+							{
+								xmlString = new AXmlPlural();
+							}
+							else
+							{
+								xmlString = new AXmlString();
+							}
+							xmlString.Name = id;
+							aRes.Add(xmlString);
 						}
 
-						aString.Name = id;
-						aString.Value = poStr.Value;
+						if (xmlString is AXmlString)
+						{
+							AXmlString aString = (AXmlString)xmlString;
+
+							aString.Value = poStr.Value;
+						}
+						else if (xmlString is AXmlPlural)
+						{
+							AXmlPlural aPlural = (AXmlPlural)xmlString;
+
+							if (!poStr.IsPluralString)
+							{
+								throw new Exception($"Expected plural string: {poFile.Name} - {poStr.Id}");
+							}
+
+							AXmlPluralItem aPluralItem;
+							if (aPlural.Items.ContainsKey(poStr.PluralType.Value))
+							{
+								aPluralItem = aPlural.Items[poStr.PluralType.Value];
+							} else
+							{
+								aPluralItem = new AXmlPluralItem();
+								aPluralItem.Quantity = poStr.PluralType.Value;
+								aPlural.Add(aPluralItem);
+							}
+
+							aPluralItem.Value = poStr.GetXmlValue();
+						}
 					}
 				}
 

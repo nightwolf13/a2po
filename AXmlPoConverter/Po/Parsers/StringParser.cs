@@ -9,7 +9,7 @@ namespace AXmlPoConverter.Po.Parsers
 {
 	public class StringParser : ParserBase
 	{
-		static Regex strRegex = new Regex(@"^msgstr\s*""(?<Value>.*)""$");
+		static Regex strRegex = new Regex($@"^msgstr\s*""(?<{GROUP_VALUE}>.*)""$");
 
 		public StringParser(string line) : base(line)
 		{
@@ -27,7 +27,8 @@ namespace AXmlPoConverter.Po.Parsers
 		{
 			context.IsId = false;
 			context.IsString = true;
-			context.CurrentString.Value = this.Normalize(value);
+
+			context.CurrentString.Value = value.PoDeNormalize();
 		}
 	}
 }

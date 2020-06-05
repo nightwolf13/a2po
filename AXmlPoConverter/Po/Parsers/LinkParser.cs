@@ -9,7 +9,7 @@ namespace AXmlPoConverter.Po.Parsers
 {
 	public class LinkParser : ParserBase
 	{
-		static Regex linkRegex = new Regex(@"^#:\s*(?<Value>.*)$");
+		static Regex linkRegex = new Regex($@"^#:\s*(?<{GROUP_VALUE}>.*)$");
 
 		public LinkParser(string line) : base(line)
 		{
@@ -25,7 +25,7 @@ namespace AXmlPoConverter.Po.Parsers
 
 		protected override void Update(ParserContext context, string value)
 		{
-			context.Links.Add(this.Normalize(value));
+			context.Links.Add(value.PoDeNormalize());
 		}
 	}
 }

@@ -10,6 +10,8 @@ namespace AXmlPoConverter.Po
 	{
 		public bool IsId { get; set; }
 		public bool IsString { get; set; }
+		public QuantityType? PluralType { get; set; } = null;
+		public bool IsPluralType => this.PluralType.HasValue;
 		public List<string> Comments { get; private set; }
 		public List<string> Links { get; set; }
 		public PoString CurrentString { get; set; }
@@ -33,10 +35,15 @@ namespace AXmlPoConverter.Po
 				}
 				this.CurrentString.Comments.AddRange(this.Comments);
 				this.CurrentString.Links.AddRange(this.Links);
+				if (this.IsPluralType)
+				{
+					this.CurrentString.PluralType = this.PluralType;
+				}
 			}
 			this.CurrentString = new PoString();
 			this.Comments = new List<string>();
 			this.Links = new List<string>();
+			this.PluralType = null;
 		}
 
 		public void FinalizeResource()

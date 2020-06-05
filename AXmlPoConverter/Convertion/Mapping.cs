@@ -13,6 +13,10 @@ namespace AXmlPoConverter.Convertion
 		private Dictionary<string, string> po2a = new Dictionary<string, string>();
 		private List<string> ignoreA = new List<string>();
 
+		public Mapping()
+		{
+
+		}
 		public Mapping(string path)
 		{
 			this.Load(path);

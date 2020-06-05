@@ -9,7 +9,7 @@ namespace AXmlPoConverter.Po.Parsers
 {
 	public class IdParser : ParserBase
 	{
-		static Regex idRegex = new Regex(@"^msgid\s*""(?<Value>.*)""$");
+		static Regex idRegex = new Regex($@"^msgid\s*""(?<{GROUP_VALUE}>.*)""$");
 
 		public IdParser(string line) : base(line)
 		{
@@ -25,15 +25,7 @@ namespace AXmlPoConverter.Po.Parsers
 
 		protected override void Update(ParserContext context, string value)
 		{
-			//if (context.CurrentString != null)
-			//{
-			//	context.CurrentString.Comments.AddRange(context.Comments);
-			//	context.PoResource.Add(context.CurrentString);
-			//	context.NextString();
-			//}
-
-			//context.CurrentString = new PoString();
-			context.CurrentString.Id = this.Normalize(value);
+			context.CurrentString.Id = value.PoDeNormalize();
 			context.IsId = true;
 			context.IsString = false;
 		}
