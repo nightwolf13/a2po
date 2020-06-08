@@ -86,8 +86,19 @@ namespace AXmlPoConverter.Convertion
 					if (poStr.IsEmpty)
 						continue;
 
-					PoString tempStr = tempPot.FirstOrDefault(s => s.Id == poStr.Id);
+					//PoString tempStr = tempPot.FirstOrDefault(s => s.Id == poStr.Id);
+					// Finding template string using link (it's android id)
+					PoString tempStr = tempPot.FirstOrDefault(s => s.Links.Any(l => poStr.Links.Any(lp => l == lp)));
 					var links = new List<string>();
+
+					if (tempStr != null)
+					{
+						if (!tempStr.Value.Contains("\n"))
+						{
+							// Replace all extra new lines (for zanata)
+							poStr.Value = poStr.Value.Replace("\n", string.Empty).Replace("\r", string.Empty);
+						}
+					}
 
 					if (tempStr != null && tempStr.Links != null)
 					{
